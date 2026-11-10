@@ -33,6 +33,7 @@ function secret_decrypt(string $text): string { $raw=base64_decode($text,true); 
 function credential(string $name): string { $v=one('SELECT value FROM secrets WHERE name=?',[$name]); return $v ? secret_decrypt($v['value']) : env($name); }
 if(PHP_SAPI!=='cli') {
     ini_set('display_errors','0');
+    header('Cache-Control: no-store, private');
     session_name('mazzuco_session');
     $https = Mazzuco\HttpContext::isHttps($_SERVER,env('TRUSTED_PROXIES'));
     session_set_cookie_params(['httponly'=>true,'secure'=>$https,'samesite'=>'Lax','path'=>'/']);

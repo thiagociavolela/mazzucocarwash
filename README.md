@@ -96,7 +96,17 @@ Documentação oficial consultada:
 
 Valores financeiros são armazenados em centavos inteiros; preços e durações ficam registrados nos itens do pedido. Reservas usam transações e bloqueios ordenados dos recursos para impedir concorrência. Promoções não se acumulam: o sistema aplica o melhor desconto elegível e verifica limites no servidor. Histórico administrativo em Auditoria.
 
-## Verificação
+## Aplicativo PWA
+
+O site inclui manifest, service worker, ícones PNG baseados no carro do `brand-emblem`, convite de instalação e instruções para iPhone/iPad. Use HTTPS em produção. O navegador controla a disponibilidade do diálogo nativo; nos dispositivos móveis também há instruções de instalação pelo menu, e o rodapé possui “Instalar app”. O aviso pode ser dispensado por sete dias e fica oculto quando o app está aberto em modo standalone.
+
+O service worker armazena somente a tela offline genérica e os ícones. Conta, API, agendamentos, pagamentos, uploads e HTML autenticado não são gravados no cache. A aplicação precisa de conexão para operar; não há fila offline de compras. Atualizações do worker aguardam o fechamento das abas anteriores, sem forçar recarga durante pagamento.
+
+No servidor, `/manifest.webmanifest`, `/sw.js` e `/offline.html` devem ser arquivos públicos acessíveis sem login. O worker deve ser servido como JavaScript e o manifest como JSON. No HestiaCP, mantenha a raiz do domínio em `public/`. Não é necessário instalar dependências PHP adicionais nem alterar o banco para ativar o PWA.
+
+Para regenerar os ícones: `php bin/build-pwa-icons.php`. Ao alterar arquivos pré-armazenados, incremente a versão CACHE em `public/sw.js`. Para validar manifest, convites e política de cache: `node tests/pwa.test.cjs` (Node é necessário apenas para esse teste de desenvolvimento).
+
+## Verificação de código e rotas
 
 ```powershell
 C:/Sites/php82/php.exe tests/run.php

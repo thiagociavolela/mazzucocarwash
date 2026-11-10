@@ -1,4 +1,12 @@
 Options -Indexes
+<IfModule mod_mime.c>
+AddType application/manifest+json .webmanifest
+</IfModule>
+<IfModule mod_headers.c>
+<Files "sw.js">
+Header set Cache-Control "no-cache"
+</Files>
+</IfModule>
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
