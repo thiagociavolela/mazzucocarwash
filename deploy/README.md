@@ -67,6 +67,16 @@ Os exemplos não contemplam proxy/CDN anterior ao Nginx. Se houver um, configure
 
 ## Rotina de operação
 
+### HestiaCP
+
+Mantenha os templates gerenciados pelo HestiaCP. Configure a raiz personalizada para a pasta `public/` da aplicação. Para um clone em `/home/mazzuco/web/mazzucocarwash.com/public_html/mazzucocarwash`, o diretório relativo é `mazzucocarwash/public`.
+
+O arquivo de roteamento deve estar somente em `public/.htaccess`. Um `.htaccess` com blocos IfModule na raiz do repositório pode causar `500: <IfModule not allowed here`, pois essa pasta está acima do DocumentRoot e pode aceitar menos diretivas. Essa versão remove o arquivo da raiz. Atualize com `git pull --ff-only origin main`, preservando `public/.htaccess` e `public/uploads/.htaccess`.
+
+Se o erro persistir, consulte as últimas linhas de `/var/log/apache2/domains/mazzucocarwash.com.error.log`. Um eventual erro `open_basedir restriction in effect` é uma configuração distinta: a raiz permitida ao PHP precisa incluir a aplicação completa, enquanto o DocumentRoot continua limitado a `public/`.
+
+### Pagamentos e manutenção
+
 Configure credenciais e webhook do Mercado Pago no painel, em Pagamentos. URL pública HTTPS necessária. Configure transporte de e-mail do PHP, além de MAIL_FROM, para recuperação de senha.
 
 Agende o comando abaixo a cada cinco minutos no cron do usuário da aplicação, adaptando os caminhos. Exemplo com flock para impedir sobreposição:

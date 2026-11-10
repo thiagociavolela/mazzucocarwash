@@ -48,7 +48,7 @@ O servidor usa o MySQL existente na porta 3306. A instância isolada em `storage
 6. Aponte o DocumentRoot do Apache para `public/` e habilite mod_rewrite/AllowOverride. O logo está em `public/images/`; o original foi preservado em `images/`.
 7. Garanta escrita em `public/uploads/` e configure envio de e-mail do PHP para recuperação de senha; defina MAIL_FROM.
 
-O `.htaccess` da raiz também oferece roteamento caso a hospedagem aponte para a pasta do projeto, bloqueando arquivos internos. Prefira sempre DocumentRoot em `public/`. Na combinação Nginx + Apache, use o proxy e roteamento descritos em `deploy/README.md`. Nunca sirva a raiz inteira sem as restrições de acesso.
+O DocumentRoot deve apontar exclusivamente para `public/`, onde está o `.htaccess` de roteamento. Não há `.htaccess` de roteamento na raiz do repositório: diretórios ancestrais podem ter permissões mais restritas no Apache, como acontece no HestiaCP. Na combinação Nginx + Apache, consulte `deploy/README.md`. Não exponha a raiz do repositório pelo servidor web.
 
 Use um usuário MySQL exclusivo com permissões apenas no banco da aplicação em produção. APP_ENV deve ser `production`. Ative HTTPS. A senha do banco não está no código versionado; `.env` e dados locais estão no `.gitignore`.
 
