@@ -31,7 +31,7 @@ function workerHarness() {
  await test('Manifest standalone e ícones PNG existentes',()=>{
   const manifest=JSON.parse(read('public/manifest.webmanifest'));
   assert.equal(manifest.display,'standalone');assert.equal(manifest.scope,'/');assert.equal(manifest.start_url,'/');
-  for(const icon of manifest.icons){const bytes=fs.readFileSync(path.join(root,'public',icon.src));const [width,height]=icon.sizes.split('x').map(Number);assert.equal(bytes.readUInt32BE(16),width);assert.equal(bytes.readUInt32BE(20),height);}
+  for(const icon of manifest.icons){const bytes=fs.readFileSync(path.join(root,'public',new URL(icon.src,'https://mazzuco.test').pathname));const [width,height]=icon.sizes.split('x').map(Number);assert.equal(bytes.readUInt32BE(16),width);assert.equal(bytes.readUInt32BE(20),height);}
   assert.ok(manifest.icons.some(icon=>icon.purpose==='maskable'));
  });
  await test('Instalação só abre após clique do usuário',async()=>{
@@ -59,7 +59,7 @@ function workerHarness() {
   const h=workerHarness();let done;h.handlers.install({waitUntil:p=>done=p});await done;assert.ok(h.writes.includes('/offline.html'));assert.ok(h.writes.every(p=>p==='/offline.html'||p.startsWith('/assets/icons/')));assert.ok(!h.writes.includes('/'));
  });
  await test('Limpeza preserva caches de outras aplicações',async()=>{
-  const h=workerHarness();let done;h.handlers.activate({waitUntil:p=>done=p});await done;assert.deepEqual(h.removed,['mazzuco-public-v0']);
+  const h=workerHarness();let done;h.handlers.activate({waitUntil:p=>done=p});await done;assert.deepEqual(h.removed,['mazzuco-public-v0','mazzuco-public-v1']);
  });
  await test('API, POST, uploads e terceiros passam direto para rede',async()=>{
   const h=workerHarness();for(const request of [{pathname:'/api/account'},{pathname:'/api/book',method:'POST'},{pathname:'/uploads/customer.webp'},{pathname:'/v1/payments/1',origin:'https://api.mercadopago.com'}])assert.equal(await h.fetch(request),null);

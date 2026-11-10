@@ -98,7 +98,7 @@ Valores financeiros são armazenados em centavos inteiros; preços e durações 
 
 ## Aplicativo PWA
 
-O site inclui manifest, service worker, ícones PNG baseados no carro do `brand-emblem`, convite de instalação e instruções para iPhone/iPad. Use HTTPS em produção. O navegador controla a disponibilidade do diálogo nativo; nos dispositivos móveis também há instruções de instalação pelo menu, e o rodapé possui “Instalar app”. O aviso pode ser dispensado por sete dias e fica oculto quando o app está aberto em modo standalone.
+O site inclui manifest, service worker, ícones PNG com o mesmo M do favicon da página, convite de instalação e instruções para iPhone/iPad. Use HTTPS em produção. O navegador controla a disponibilidade do diálogo nativo; nos dispositivos móveis também há instruções de instalação pelo menu, e o rodapé possui “Instalar app”. O aviso pode ser dispensado por sete dias e fica oculto quando o app está aberto em modo standalone.
 
 O service worker armazena somente a tela offline genérica e os ícones. Conta, API, agendamentos, pagamentos, uploads e HTML autenticado não são gravados no cache. A aplicação precisa de conexão para operar; não há fila offline de compras. Atualizações do worker aguardam o fechamento das abas anteriores, sem forçar recarga durante pagamento.
 
