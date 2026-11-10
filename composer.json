@@ -1,0 +1,37 @@
+{
+    "name": "mazzuco/carwash",
+    "description": "Site e gestão de estética automotiva Mazzuco CarWash",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "autoload": {
+        "psr-4": { "Mazzuco\\": "app/src/" }
+    },
+    "scripts": {
+        "env:setup": "@php bin/setup-local.php",
+        "app:install": "@php bin/install.php",
+        "admin:create": "@php bin/create-admin.php",
+        "payments:reconcile": "@php bin/reconcile.php",
+        "serve": "@php -S 127.0.0.1:8088 router.php",
+        "test:runtime": "@php tests/runtime.php",
+        "test": ["@test:runtime", "@php tests/run.php"],
+        "test:http": "@php tests/http.php"
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform-check": true,
+        "allow-plugins": {}
+    }
+}

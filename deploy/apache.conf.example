@@ -1,0 +1,30 @@
+# Exemplo para Apache 2.4 + PHP-FPM. Adapte caminho, domínio e socket do PHP.
+# Habilite rewrite, proxy e proxy_fcgi. Não duplique Listen se já configurado.
+Listen 127.0.0.1:8080
+<VirtualHost 127.0.0.1:8080>
+    ServerName carwash.exemplo.com
+    DocumentRoot /var/www/mazzuco/public
+
+    <Directory /var/www/mazzuco/public>
+        Options -Indexes -ExecCGI
+        AllowOverride None
+        Require all granted
+        DirectoryIndex index.php
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^ index.php [END,QSA]
+        <Files "index.php">
+            SetHandler "proxy:unix:/run/php/php8.2-fpm.sock|fcgi://localhost/"
+        </Files>
+    </Directory>
+
+    <Directory /var/www/mazzuco/public/uploads>
+        Options -Indexes -ExecCGI
+        <FilesMatch "(?i)\.(php[0-9]?|phtml|phar|cgi|pl|py|sh|html|svg)$">
+            Require all denied
+        </FilesMatch>
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/mazzuco-error.log
+    CustomLog ${APACHE_LOG_DIR}/mazzuco-access.log combined
+</VirtualHost>

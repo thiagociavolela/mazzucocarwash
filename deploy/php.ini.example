@@ -1,0 +1,12 @@
+; Ajustes para o pool PHP-FPM utilizado pelo Apache. Adapte à sua hospedagem.
+expose_php = Off
+display_errors = Off
+log_errors = On
+upload_max_filesize = 5M
+post_max_size = 8M
+memory_limit = 256M
+max_execution_time = 60
+date.timezone = America/Sao_Paulo
+session.use_strict_mode = 1
+session.cookie_httponly = 1
+opcache.enable = 1
